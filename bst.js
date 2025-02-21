@@ -10,7 +10,7 @@ class Node {
 
 class Tree {
     constructor(array) {
-        this.root = this.buildTree(sortUnique(array), 0 , array.length -1);
+        this.root = this.buildTree(sortUnique(array), 0 , sortUnique(array).length -1);
     }
 
     buildTree(array, start, end) {
@@ -24,11 +24,25 @@ class Tree {
         root.right = this.buildTree(array, (midPoint + 1), end);
 
         return root;
+    }   
+    
+    insert(value) {
+        const newNode = new Node(value);
 
-    }     
+        let currentNode = this.root;
+        let lastNode = null;
+        while (currentNode != null) {
+            lastNode = currentNode;
+            if (value < currentNode.data) currentNode = currentNode.left;
+            else currentNode = currentNode.right;
+        }
+        if (value < lastNode.data) lastNode.left = newNode;
+        else lastNode.right = newNode;
+    }
 }
 
-const test = new Tree([1, 687, 11, 22, 2, 2, 3453, 34, 11, 3464363, 0]);
+const test = new Tree([1, 1, 687, 11, 22, 2, 44, 3453, 34, 3464363, 0]);
+test.insert(33);
 
 
 
