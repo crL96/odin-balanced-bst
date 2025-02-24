@@ -98,11 +98,31 @@ class Tree {
         else if (value > node.data) return this.find(value, node.right);
         else return this.find(value, node.left);
     }
+
+    levelOrder(callback, queue = [this.root]) {
+        if (queue.length == 0) return;
+
+        let currentNode = queue.shift();
+        if (currentNode.left != null) {
+            queue.push(currentNode.left);
+        }
+        if (currentNode.right != null) {
+            queue.push(currentNode.right);
+        }
+        callback(currentNode);
+        this.levelOrder(callback, queue);
+
+    }
 }
 
 const test = new Tree([1, 1, 687, 11, 22, 2, 44, 3453, 34, 3464363, 0]);
 test.insert(33);
-// test.delete(1111);
+
+function con(node) {
+    console.log(node.data);
+}
+
+test.levelOrder(con);
 
 
 
