@@ -140,7 +140,7 @@ class Tree {
 
     postOrder(callback, node = this.root) {
         if (typeof callback != "function") throw Error ("No valid callback function");
-        
+
         if (node.left != null) {
             this.postOrder(callback, node.left);
         }
@@ -148,6 +148,34 @@ class Tree {
             this.postOrder(callback, node.right);
         }
         callback(node);
+    }
+
+    height(node, currentHeight = 0) {
+        if (node.left != null || node.right != null) {
+            currentHeight++;
+        } else return currentHeight;
+
+        let left;
+        if (node.left != null) {
+            left = this.height(node.left, currentHeight);
+        }
+        let right;
+        if (node.right != null) {
+            right = this.height(node.right, currentHeight);
+        }
+
+        if (left > right) return left;
+        else return right;
+    }
+
+    depth(node, currentNode = this.root, depth = 0) {
+        if (currentNode == null) return null;
+
+        if (node == currentNode) return depth;
+        else if (node.data > currentNode.data) {
+            return this.depth(node, currentNode.right, depth + 1);
+        }
+        else return this.depth(node, currentNode.left, depth + 1);
     }
 }
 
@@ -158,8 +186,7 @@ function con(node) {
     console.log(node.data);
 }
 
-test.inOrder(con);
-
+console.log(test.depth(test.find(11)));
 
 
 
