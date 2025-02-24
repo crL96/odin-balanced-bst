@@ -100,6 +100,7 @@ class Tree {
     }
 
     levelOrder(callback, queue = [this.root]) {
+        if (typeof callback != "function") throw Error ("No valid callback function");
         if (queue.length == 0) return;
 
         let currentNode = queue.shift();
@@ -121,8 +122,6 @@ test.insert(33);
 function con(node) {
     console.log(node.data);
 }
-
-test.levelOrder(con);
 
 
 
