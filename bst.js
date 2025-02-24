@@ -27,6 +27,8 @@ class Tree {
     }   
     
     insert(value) {
+        if (this.find(value) != null) return;
+
         const newNode = new Node(value);
 
         let currentNode = this.root;
@@ -194,21 +196,18 @@ class Tree {
             return false;
         }
         return true;
-    } 
+    }
+
+    rebalance() {
+        const array = [];
+        this.inOrder((element) => {
+            array.push(element.data);
+        });
+        this.root = this.buildTree(array, 0 , array.length -1);
+    }
 }
 
 const test = new Tree([1, 1, 687, 11, 22, 2, 44, 3453, 34, 3464363, 0]);
-test.insert(3);
-// test.insert(5);
-test.insert(7);
-// test.insert(6);
-
-function con(node) {
-    console.log(node.data);
-}
-
-console.log(test.isBalanced());
-
 
 
 
