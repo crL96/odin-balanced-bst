@@ -40,9 +40,56 @@ class Tree {
         else lastNode.right = newNode;
     }
 
-    // delete(value) {
+    delete(value) {
+        const node = this.find(value);
+        if (node == undefined) return false;
 
-    // }
+        //find parent node
+        let parentNode = this.root;
+        while (parentNode != null) {
+            if (parentNode.left == node || parentNode.right == node) break;
+
+            if (parentNode.data < node.data) {
+                parentNode = parentNode.right;
+            } else {
+                parentNode = parentNode.left;
+            }
+        }
+
+        //If node is a leaf node
+        if (node.left == null && node.right == null) {
+            if (node.data > parentNode.data) {
+                parentNode.right = null;
+            } else {
+                parentNode.left = null;
+            }
+        }
+        //If node has only one child
+        else if (node.left == null || node.left == null) {
+            //set parent pointer to nodes only child
+            let childNode = node.left;
+            if (childNode == null) childNode = node.right;
+
+            if (node.data > parentNode.data) {
+                parentNode.right = childNode;
+            } else {
+                parentNode.left = childNode;
+            }
+        }
+        // if node has two children
+        else {
+            //replace node value with the next biggest value, aka in the right subtree, the leftmost node.
+            //and then remove that node
+            let nextBiggest = node.right;
+            while (nextBiggest.left != null) {
+                nextBiggest = nextBiggest.left;
+            }
+            this.delete(nextBiggest.data)
+            node.data = nextBiggest.data;
+        }
+        return true;            
+
+    }
 
     find(value, node = this.root) {
         if (node == null) return null;
@@ -55,8 +102,7 @@ class Tree {
 
 const test = new Tree([1, 1, 687, 11, 22, 2, 44, 3453, 34, 3464363, 0]);
 test.insert(33);
-
-console.log(test.find(12));
+// test.delete(1111);
 
 
 
