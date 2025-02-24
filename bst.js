@@ -151,15 +151,16 @@ class Tree {
     }
 
     height(node, currentHeight = 0) {
+        // if (node == null) return;
         if (node.left != null || node.right != null) {
             currentHeight++;
         } else return currentHeight;
 
-        let left;
+        let left = 0;
         if (node.left != null) {
             left = this.height(node.left, currentHeight);
         }
-        let right;
+        let right = 0;
         if (node.right != null) {
             right = this.height(node.right, currentHeight);
         }
@@ -177,16 +178,36 @@ class Tree {
         }
         else return this.depth(node, currentNode.left, depth + 1);
     }
+
+    isBalanced(node = this.root) {
+        //is balanced if height difference between left and right subtree is 1 or less.
+        if (node == null) return true;
+
+        let leftHeight = 0;
+        if (node.left != null) leftHeight = this.height(node.left);
+        let rightHeight = 0;
+        if (node.right != null) rightHeight = this.height(node.right);
+
+        if (Math.abs(leftHeight - rightHeight) > 1) return false;
+
+        if (!(this.isBalanced(node.left)) || !(this.isBalanced(node.right))) {
+            return false;
+        }
+        return true;
+    } 
 }
 
 const test = new Tree([1, 1, 687, 11, 22, 2, 44, 3453, 34, 3464363, 0]);
-test.insert(33);
+test.insert(3);
+// test.insert(5);
+test.insert(7);
+// test.insert(6);
 
 function con(node) {
     console.log(node.data);
 }
 
-console.log(test.depth(test.find(11)));
+console.log(test.isBalanced());
 
 
 
